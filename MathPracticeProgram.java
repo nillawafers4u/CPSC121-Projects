@@ -17,6 +17,7 @@ public class MathPracticeProgram {
 		int correctDiv = 0;
 		int answer = 0;
 		int input = 0;
+		String enter = "";
 		int userAnswer = 0;
 		String userIn = "";
 		boolean flag = true;
@@ -36,16 +37,15 @@ public class MathPracticeProgram {
 			System.out.println("6 - Quit");
 			System.out.print("Enter your selection (1-6) ");
 			
+			enter = scanner.nextLine();
 			try 
 			{
-				input = scanner.nextInt();
+				input = Integer.parseInt(enter);
 			}
 			catch(Exception err)
 			{
 				input = 9;
 			}
-			
-			scanner.nextLine();
 		
 			switch(input)
 			{

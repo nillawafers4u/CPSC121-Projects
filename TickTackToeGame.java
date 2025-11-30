@@ -186,7 +186,6 @@ public static Scanner scanner = new Scanner(System.in);
 		}//end of i for loop
 	}// end of display method
 	
-
 	public static void title(String sub)
 	{
 		System.out.printf("%24s","Tick Tack  Toe Game");

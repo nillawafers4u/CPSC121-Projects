@@ -327,7 +327,7 @@ public static Scanner scanner = new Scanner(System.in);
 		{
 			if(!choice)
 			{
-				double rand = Math.random() * 8 + 1;
+				double rand = Math.random() * 9 + 1;
 				x = (int) rand;
 			}
 			

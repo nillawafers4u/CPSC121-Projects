@@ -6,7 +6,7 @@ public class TickTackToeGame {
 	
 //using a public static scanner this time around so my method can use it too.
 public static Scanner scanner = new Scanner(System.in);
-
+public static int turn = 1;
 	public static void main(String[] args) {
 	//declaring variables
 		String enter = "";
@@ -14,6 +14,7 @@ public static Scanner scanner = new Scanner(System.in);
 		int currentMove = 0;
 		int input = 0;
 		int[][] t = new int[4][4];
+		
 		
 		
 		//start of main loop
@@ -53,6 +54,7 @@ public static Scanner scanner = new Scanner(System.in);
 						currentMove = Move(t, false);
 						t[(currentMove-1)/3 + 1][(currentMove-1) % 3 + 1] = -1;
 						display(t);
+						turn++;
 						System.out.printf("%25s","Robot makes  its move");
 						System.out.println();
 
@@ -86,6 +88,7 @@ public static Scanner scanner = new Scanner(System.in);
 							t[(currentMove-1)/3 + 1][(currentMove-1) % 3 + 1] = 1;
 							cls();
 							display(t);
+							turn++;
 							if(winner(t) == 3)
 							{
 								System.out.println();
@@ -97,6 +100,7 @@ public static Scanner scanner = new Scanner(System.in);
 							}	
 						}
 					}while(true);
+					turn = 1;
 					break;
 					//end of case 1
 					
@@ -275,9 +279,10 @@ public static Scanner scanner = new Scanner(System.in);
 		int row = 0;
 		int move = 0;
 		int x = 0;
+		int w = 0;
 		//decides if bot or player is moving
 		//if true for player, else false for bot logic
-		if(choice == true)
+		if(choice)
 		{
 
 			do 
@@ -319,28 +324,190 @@ public static Scanner scanner = new Scanner(System.in);
 					System.out.println();
 				}
 			}while(true);
-		}
-			
-		//bot move logic if false is passed to method
-		do
+		}//end of player move logic
+		
+		//============BOT LOGIC============
+		else
 		{
-			if(!choice)
+			//bot move logic if false is passed to method			
+			if(turn == 1)
+			{
+				return 3;
+			}
+			
+			//turn two take diagonal across to set up fork if they take middle
+			if(turn == 3 && t[2][2] == 1)
+			{
+				return 7;
+			}
+			
+			if(turn == 3 && t[2][2] == 0)
+			{
+				return 5;
+			}
+			//checking for winning moves, both bot and player..
+			
+			//check rows for computer winning move
+			for(int j = 1; j<=3; j++)
+			{
+				w = 0;
+				for(int i =1; i<=3; i++)
+				{
+					w = w+t[j][i];
+				}
+				if(w == -2)
+				{
+					for(int i = 1; i<=3; i++)
+					{
+						if(t[j][i] == 0)
+						{
+							move = (j-1)*3 + i;
+						}
+					}
+					return move;
+				}
+			}
+			
+			//check col for computer winning move
+			for(int j = 1; j<=3; j++)
+			{
+				w = 0;
+				for(int i =1; i<=3; i++)
+				{
+					w = w+t[i][j];
+				}
+				if(w == -2)
+				{
+					for(int i = 1; i<=3; i++)
+					{
+						if(t[i][j] == 0)
+						{
+							move = (i-1)*3 + j;
+						}
+					}
+					return move;
+				}
+
+			}
+			
+			//diagonal check for computer winning move
+			w=0;
+			w = t[1][3] + t[2][2] + t[3][1];
+			
+			if(w == -2)
+			{
+				for(int i = 1; i<=3; i++)
+				{
+					if(t[i][4-i] == 0)
+					{
+						return move = (i-1)*3 + (4-i);
+					}
+				}
+			}
+
+			w = t[1][1] + t[2][2] + t[3][3];
+			
+			if(w == -2)
+			{
+				for(int i = 1; i<=3; i++)
+				{
+					if(t[i][i] == 0)
+					{
+						return move = (i-1)*3 + i;
+					}
+					
+				}
+			}
+			
+			
+			
+			
+			
+			//check for player row move to block,
+			for(int j = 1; j<=3; j++)
+			{
+				w = 0;
+				for(int i =1; i<=3; i++)
+				{
+					w = w+t[j][i];
+				}
+				if(w == 2)
+				{
+					for(int i = 1; i<=3; i++)
+					{
+						if(t[j][i] == 0)
+						{
+							move = (j-1)*3 + i;
+						}
+					}
+					return move;
+				}
+			}
+			//check for player col move to block
+			for(int j = 1; j<=3; j++)
+			{
+				w = 0;
+				for(int i =1; i<=3; i++)
+				{
+					w = w+t[i][j];
+				}
+			
+				if(w == 2)
+				{
+					for(int i = 1; i<=3; i++)
+					{
+						if(t[i][j] == 0)
+						{
+							move = (i-1)*3 + j;
+						}
+					}
+					return move;
+				}
+			}
+			//check for diagonal play move to block
+			w = t[1][3] + t[2][2] + t[3][1];
+			if(w == 2)
+			{
+				for(int i = 1; i<=3; i++)
+				{
+					if(t[i][4-i] == 0)
+					{
+						return move = (i-1)*3 + (4-i);
+					}
+				}
+			}
+			
+			w = t[1][1] + t[2][2] + t[3][3];
+			if(w == 2)
+			{
+				for(int i = 1; i<=3; i++)
+				{
+					if(t[i][i] == 0)
+					{
+						return move = (i-1)*3 + i;
+					}
+					
+				}
+			}
+			
+			//random move if nothing to win or block.
+			do
 			{
 				double rand = Math.random() * 9 + 1;
 				x = (int) rand;
-			}
-			
-			row = (x-1)/3 + 1;
-			col = ((x-1) % 3 + 1);
-			
-			if(t[row][col] == 0)
-			{
-				move = x;
-			}
-			
-		} while(move == 0);
-		return move;
-	}// end of move
+				
+				row = (x-1)/3 + 1;
+				col = ((x-1) % 3 + 1);
+				
+				if(t[row][col] == 0)
+				{
+					move = x;
+				}
+					
+			} while(move == 0);
+			return move;
+		}//end of the bot's move logic
+	}// end of move()
 	
 	public static void reset(int [][] t)
 	{
@@ -352,6 +519,6 @@ public static Scanner scanner = new Scanner(System.in);
 			}
 		}
 		
-	}//end of reset
+	}//end of reset()
 	
 }//end of class

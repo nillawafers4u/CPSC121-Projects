@@ -273,40 +273,84 @@ public class StudyGuideProgram {
 					break;//end of case 3
 					
 				case 4:
-					int x = (int) (Math.random() * cnt + 1);
-					int[] temp = new int[4]; 
-					for (int i = 1; i<=4; i++)
+					do 
 					{
-						temp[i] = 0;
-					}
-					int i = 1;
-					do
-					{
-						int y = (int) (Math.random() * cnt + 1);
-						int found  = 0;
-						for (int j = 1; j <= i; j++)
+							
+						cls();
+						int x = (int) (Math.random() * cnt + 1);
+						questions[0][0] = questions[x][1]; //question
+						questions[0][1] = questions[x][2]; //correct answer
+						questions[0][2] = questions[x][3]; //wrong answer 1
+						questions[0][3] = questions[x][4]; //wrong answer 2
+						questions[0][4] = questions[x][5]; //wrong answer 3
+						int[] temp = new int[5]; 
+						for (int i = 1; i<=4; i++)
 						{
-							if(temp[j] == y)
+							temp[i] = 0;
+						}
+						int i = 1;
+						do
+						{
+							int y = (int) (Math.random() * 4 + 1);
+							int found  = 0;
+							for (int j = 1; j <= i; j++)
 							{
-								found = 1;
-								j = i;
+								if(temp[j] == y)
+								{
+									found = 1;
+									j = i;
+								}
 							}
-						}
-						if(found == 0)
+							if(found == 0)
+							{
+								temp[i] = y;
+								i++;
+							}
+						}while(i<=4);
+						
+						
+						//eventual practice case
+						title("Practice Mode");
+						total++;
+						System.out.println("Question: " + questions[0][0]);
+						for (int k = 1; k<=4; k++)
 						{
-							temp[i] = y;
-							i++;
+							System.out.println(k + ".) " + questions[0][temp[k]]);
 						}
-					}while(i<5);
-					//eventual practice case
-					System.out.println("========================================\n"
-									  +"|                                      |\n"
-									  +"|           Work in progress!          |\n"
-									  +"|                                      |\n"
-									  +"========================================");
-					System.out.println();
-					System.out.println("Press enter to continue...");
-					scanner.nextLine();
+						System.out.println();
+						System.out.print("Enter the number of the correct answer (1-4): ");
+						userChoice = scanner.nextLine();
+						int userChoiceNum;
+						try 
+						{
+							userChoiceNum = Integer.parseInt(userChoice);
+						}
+						catch(Exception err)
+						{
+							userChoiceNum = 0;
+						}
+						if(temp[userChoiceNum] == 1)
+						{
+							correct++;
+							System.out.println();
+							System.out.println("Well done! That is the correct answer.");
+							System.out.println("Press enter to continue or '/' to return to menu.");
+							userChoice = scanner.nextLine();
+						}
+						else
+						{
+							System.out.println();
+							System.out.println("Sorry that is incorrect, the correct answer is:");
+							System.out.println(questions[0][1]);
+							System.out.println("Press enter to continue or '/' to return to menu.");
+							userChoice = scanner.nextLine();							
+						}
+						if(userChoice.equals("/"))
+						{
+							miniFlag = false;
+						}
+					}while(miniFlag);
+					
 					break;//end of case 4
 					
 				case 5:

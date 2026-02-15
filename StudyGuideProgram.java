@@ -342,6 +342,7 @@ public class StudyGuideProgram {
 							System.out.println();
 							System.out.println("Sorry that is incorrect, the correct answer is:");
 							System.out.println(questions[0][1]);
+							System.out.println();
 							System.out.println("Press enter to continue or '/' to return to menu.");
 							userChoice = scanner.nextLine();							
 						}
@@ -436,11 +437,20 @@ public class StudyGuideProgram {
 					do 
 					{	
 						cls();
-						System.out.println("Are you sure you wish to save? Previous data will be lost!");
-						System.out.print("Y/N: ");
+						if(cnt == 0)
+						{
+							System.out.println("WARNING: you currently have no questions.");
+							System.out.println("If you choose to save you will wipe out your old data with nothing!");
+							System.out.print("Are you sure you still want to save? (Y/N): ");
+						}
+						else
+						{
+							System.out.println("Are you sure you wish to save? Previous data will be lost!");
+							System.out.print("Y/N: ");
+						}
 						userChoice = scanner.nextLine();
 						
-						switch(userChoice)
+						switch(userChoice.toLowerCase())
 						{
 							case "y":
 							{
@@ -480,10 +490,11 @@ public class StudyGuideProgram {
 						cls();
 						System.out.println("Are you sure you wish to load? Any unsaved data will be lost!");
 						System.out.print("Y/N: ");
+						
 						userChoice = scanner.nextLine();
 						
 						//Just felt like using another switch instead of if statements
-						switch(userChoice)
+						switch(userChoice.toLowerCase())
 						{
 							case "y":
 							{
@@ -522,48 +533,64 @@ public class StudyGuideProgram {
 					do 
 					{	
 						cls();
-						System.out.println("Do you want to save before exiting?");
-						System.out.println("Any unsaved data will be lost!");
-						System.out.print("Y/N: ");
-						userChoice = scanner.nextLine();
-						
-						//Just felt like using another switch instead of if statements
-						switch(userChoice)
+						if(cnt == 0)
 						{
-							case "y":
-							{
-								cls();
-								questions = save(questions, cnt);
-								System.out.println();
-								System.out.println("Your data was saved successfully!");
-								System.out.println("Thanks for using the program!");
-								System.out.println("(Press enter to finish shutdown)");
-								scanner.nextLine();
-								miniFlag = false;
-							} break;
+							title("Exit Screen");
+							System.out.println("No data to be saved");
+							System.out.println("Thanks for using the program!");
+							miniFlag = false;
+						}
+						else 
+						{
+							title("Exit Screen");
+							System.out.println("Do you want to save before exiting?");
+							System.out.println("Any unsaved data will be lost!");
+							System.out.print("Y/N: ");
+							userChoice = scanner.nextLine();
 							
-							case "n":
+							//Just felt like using another switch instead of if statements
+							switch(userChoice)
 							{
-								cls();
-								System.out.println("You have chosen NOT to save your data.");
-								System.out.println("Hope you didn't lose anything...");
-								System.out.println();
-								System.out.println("Thanks for using my program!");
-								System.out.println("(Press enter to finish shutdown)");
-								scanner.nextLine();
-								miniFlag = false;
-							} break;
-							
-							default:
-							{
-								cls();
-								System.out.println("you've entered an unrecognized input");
-								System.out.println("please enter Y or N.");
-								System.out.println("Press enter to continue...");
-								scanner.nextLine();
-							} break;
-							
-						} //end of Y/N switch
+								case "y":
+								{
+									cls();
+									title("Exit Screen");
+									questions = save(questions, cnt);
+									System.out.println();
+									System.out.println("Your data was saved successfully!");
+									System.out.println("Thanks for using the program!");
+									System.out.println("(Press enter to finish shutdown)");
+									scanner.nextLine();
+									miniFlag = false;
+								} break;
+								
+								case "n":
+								{
+									cls();
+									title("Exit Screen");
+									System.out.println("You have chosen NOT to save your data.");
+									System.out.println("Hope you didn't lose anything...");
+									System.out.println();
+									System.out.println("Thanks for using my program!");
+									System.out.println("(Press enter to finish shutdown)");
+									scanner.nextLine();
+									miniFlag = false;
+								} break;
+								
+								default:
+								{
+									cls();
+									title("Exit Screen");
+									System.out.println("you've entered an unrecognized input");
+									System.out.println("please enter Y or N.");
+									System.out.println("Press enter to continue...");
+									scanner.nextLine();
+								} break;
+								
+							} //end of Y/N switch
+						}
+						
+						
 					} while(miniFlag); //end of do loop
 					flag = false;
 					break; // end of case 8
